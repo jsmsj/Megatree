@@ -1,4 +1,7 @@
-console.log('hi')
+console.info(
+    'Made with %c♥%c by jsmsj',
+    'color: #e25555', 'color: unset'
+);
 const markdown = window.markdownit()
 
 

@@ -30,9 +30,15 @@ megadata = async function (url) {
   }
 };
 
-async function scrollUp() {
-  var main = document.getElementsByTagName("html")[0];
-  main.scrollTop = "0px";
+async function scrollToLoc(tag) {
+  const y =
+    document.getElementById(tag).getBoundingClientRect().top +
+    window.scrollY -
+    150;
+  window.scroll({
+    top: y,
+    behavior: "smooth",
+  });
 }
 
 async function HandleClick(id) {
@@ -48,17 +54,19 @@ async function HandleClick(id) {
   data = await megadata(link);
   myspinner.classList.add("hiddenclass");
   if (id == 1) {
-    codeElement = document.getElementById("treediv");
+    let codeElement = document.getElementById("treediv");
     codeElement.innerHTML = `<pre><code class="language-ini hljs">${data.tree}</code></pre>`;
-    // scrollUp();
+    scrollToLoc("treediv");
   } else if (id == 2) {
-    codeElement = document.getElementById("linkdiv");
+    let codeElement = document.getElementById("linkdiv");
+    const topCoords = codeElement.getBoundingClientRect().top;
     const links = data.only_links;
     let result = "";
     for (let i = 0; i < links.length; i++) {
       result += `<a class="mylinks link-info link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" target="_blank" rel="noopener noreferrer" href="${links[i]}">${links[i]}</a>\n`;
     }
     codeElement.innerHTML = `<pre><code class="language-ini hljs">${result}</code></pre>`;
+    scrollToLoc("linkdiv");
   }
 }
 

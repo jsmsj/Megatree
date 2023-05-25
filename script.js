@@ -36,20 +36,21 @@ async function scrollUp() {
 }
 
 async function HandleClick(id) {
-  myspinner = document.getElementById("myspinner");
+  let myspinner = document.getElementById("myspinner");
   link = document.getElementById("Megalink").value;
   if (!link) {
     alert("No Mega Link found");
     return;
   }
 
+  // container.classList.add("minimized");
   myspinner.classList.remove("hiddenclass");
   data = await megadata(link);
   myspinner.classList.add("hiddenclass");
   if (id == 1) {
     codeElement = document.getElementById("treediv");
     codeElement.innerHTML = `<pre><code class="language-ini hljs">${data.tree}</code></pre>`;
-    scrollUp();
+    // scrollUp();
   } else if (id == 2) {
     codeElement = document.getElementById("linkdiv");
     const links = data.only_links;
@@ -58,6 +59,21 @@ async function HandleClick(id) {
       result += `<a class="mylinks link-info link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" target="_blank" rel="noopener noreferrer" href="${links[i]}">${links[i]}</a>\n`;
     }
     codeElement.innerHTML = `<pre><code class="language-ini hljs">${result}</code></pre>`;
-    scrollUp();
+  }
+}
+
+window.onscroll = function () {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  let container = document.getElementById("container");
+  if (
+    document.body.scrollTop > 200 ||
+    document.documentElement.scrollTop > 200
+  ) {
+    container.classList.add("minimized");
+  } else {
+    container.classList.remove("minimized");
   }
 }
